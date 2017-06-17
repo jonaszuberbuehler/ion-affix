@@ -1,46 +1,51 @@
-# Ionic Module Template
+# ion-affix
 
-This is a template for building your own reusable Angular2/Ionic2 module using TypeScript. Supports Angular's ngc and Ahead-of-Time compiling out of the box.
+> Allows for creating affixed (sticky) `ion-list-header` for newest [Ionic framework][1].
 
-## Developing
+Kudos to [Collin Donahue-Oponski][2] and his idea shown in [this gist][3].
 
-Develop your module like any other Angular 2 module. Then, run `npm run build` to build a local copy.
+[1]: https://ionicframework.com/
+[2]: https://github.com/colllin
+[3]: https://gist.github.com/colllin/1a0c3a91cc641d8e578f
 
-When you're ready to publish to npm, run `npm publishPackage`.
+## See it
 
-If you'd like to test this package, run `npm install ionic-module-template`
+Coming
 
-## npm link
+## Get it
 
-Currently, modules must be published to npm. `npm link` packages will not install properly with our webpack confing (something on our list). If you can't push private code to npm, other options are a private npm repo/npm enterprise, or `npm install` from a git repo.
+from npm
 
-## Using your module in an Ionic 2 app
+```bash
+npm install --save ion-affix
+```
+## Use it
+
+Import `IonAffixModule` in your `app.module.ts`
 
 ```typescript
-import { NgModule } from '@angular/core';
-import { IonicApp, IonicModule } from 'ionic-angular';
-import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
-
-// Import your module
-import { MyModule } from 'ionic-module-template';
-
 @NgModule({
-  declarations: [
-    MyApp,
-    HomePage
-  ],
-  imports: [
-    IonicModule.forRoot(MyApp),
-
-    MyModule // Put your module here
-  ],
-  bootstrap: [IonicApp],
-  entryComponents: [
-    MyApp,
-    HomePage
-  ],
-  providers: []
+    ...
+    imports: [
+        IonAffixModule
+    ]
+    ...
 })
-export class AppModule {}
+export class AppModule {
+}
 ```
+
+and add the directive `ion-affix` to any `ion-list-header` that should be sticky. You also need to provide a reference to the parent `ion-content`.
+
+ ```html
+ <ion-content padding #content>
+    <ion-list>
+        <ion-list-header ion-affix [content]="content" (click)="test()">Group 1</ion-list-header>
+        <ion-item *ngFor="let item of items">{{item}}</ion-item>
+    </ion-list>
+ </ion-content>
+ ```
+
+## Explain it
+
+To be able use custom Angular directives on a sticky header I decided to make the original `ion-list-header` element sticky instead of its clone. This is the major difference to the gist shown above and I did it mainly because I have no idea how to do a `$compile(clone)` known from AngularJS with Angular 2. 
