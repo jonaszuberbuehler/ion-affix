@@ -30,8 +30,6 @@ export class IonAffix implements AfterViewInit, OnDestroy {
     ngAfterViewInit(): void {
         const headerElement = this.element.nativeElement;
         const containerElement = headerElement.parentElement;
-        const containerTop = containerElement.offsetTop;
-        const containerBottom = containerTop + containerElement.getBoundingClientRect().height;
         const headerHeight = headerElement.getBoundingClientRect().height;
         const right = window.innerWidth - headerElement.getBoundingClientRect().width - headerElement.getBoundingClientRect().left;
         const left = headerElement.getBoundingClientRect().left;
@@ -39,6 +37,8 @@ export class IonAffix implements AfterViewInit, OnDestroy {
         this.scrollSubscription = this.content.ionScroll.subscribe(event => {
             const scrollTop = event.scrollTop;
             const contentScrollTop = this.content.getScrollElement().getBoundingClientRect().top;
+            const containerTop = containerElement.offsetTop;
+            const containerBottom = containerTop + containerElement.getBoundingClientRect().height;
 
             // check if scrollTop is within list boundaries
             if (scrollTop >= containerTop && scrollTop <= containerBottom) {
