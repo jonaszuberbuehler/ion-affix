@@ -1,6 +1,6 @@
 # ion-affix
 
-> Allows for creating affixed (sticky) `ion-list-header` for newest [Ionic framework][1].
+> Allows for creating affixed (sticky) `ion-list-header` and `ion-item-divider` for newest [Ionic framework][1].
 
 Kudos to [Collin Donahue-Oponski][2] and his initial idea shown in [this gist][3].
 
@@ -37,7 +37,7 @@ export class AppModule {
 }
 ```
 
-and add the directive `ion-affix` to any `ion-list-header` that should be sticky. You also need to provide a reference to the parent `ion-content`.
+and add the directive `ion-affix` to any `ion-list-header` or `ion-item-divider` that should be sticky. You also need to provide a reference to the parent `ion-content`.
 
  ```html
  <ion-content padding #content>
@@ -45,6 +45,23 @@ and add the directive `ion-affix` to any `ion-list-header` that should be sticky
         <ion-list-header ion-affix [content]="content" (click)="test()">Group 1</ion-list-header>
         <ion-item *ngFor="let item of items">{{item}}</ion-item>
     </ion-list>
+    <ion-list>
+        <ion-list-header ion-affix [content]="content">Group 2</ion-list-header>
+        <ion-item *ngFor="let item of items">{{item}}</ion-item>
+    </ion-list>
+ </ion-content>
+ ```
+ 
+ ```html
+ <ion-content padding #content>
+    <ion-item-group>
+         <ion-item-divider ion-affix [content]="content" (click)="test()">Group 1 (click me!)</ion-item-divider>
+         <ion-item *ngFor="let item of items">{{item}}</ion-item>
+     </ion-item-group>
+     <ion-item-group>
+         <ion-item-divider ion-affix [content]="content">Group 2</ion-item-divider>
+         <ion-item *ngFor="let item of items">{{item}}</ion-item>
+     </ion-item-group>
  </ion-content>
  ```
 
