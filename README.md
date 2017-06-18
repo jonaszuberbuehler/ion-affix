@@ -52,7 +52,7 @@ and add the directive `ion-affix` to any `ion-list-header` that should be sticky
 
 To be able use custom Angular directives on a sticky header I decided to make the original `ion-list-header` element sticky instead of its clone. This is the major difference to the gist shown above and I did it mainly because I have no idea how to do a `$compile(clone)` known from AngularJS with Angular 2. 
 
-# Note it
+## Note it
 
 To make it work on iOS use the [cordova-plugin-wkwebview-engine][5] plugin. Otherwise the scroll events are only fired once scrolling stops.
 
