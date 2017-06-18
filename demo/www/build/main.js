@@ -55288,7 +55288,7 @@ var HomePage = (function () {
 }());
 HomePage = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_5" /* Component */])({
-        selector: 'page-home',template:/*ion-inline-start:"/Users/zubi/Documents/github/affix-demo/src/pages/home/home.html"*/'<ion-header>\n    <ion-toolbar>\n        <ion-title>\n            Ionic fixed-header\n        </ion-title>\n    </ion-toolbar>\n</ion-header>\n\n<ion-content padding #content>\n    The world is your oyster.\n    <ion-list>\n        <ion-list-header ion-affix [content]="content" (click)="test()">Group 1 (click me!)</ion-list-header>\n        <ion-item *ngFor="let item of items">{{item}}</ion-item>\n    </ion-list>\n    <ion-list>\n        <ion-list-header ion-affix [content]="content">Group 2</ion-list-header>\n        <ion-item *ngFor="let item of items">{{item}}</ion-item>\n    </ion-list>\n    <ion-list>\n        <ion-list-header>Group 3 (non sticky)</ion-list-header>\n        <ion-item *ngFor="let item of items">{{item}}</ion-item>\n    </ion-list>\n    <ion-list>\n        <ion-list-header ion-affix [content]="content">Group 4</ion-list-header>\n        <ion-item *ngFor="let item of items">{{item}}</ion-item>\n    </ion-list>\n</ion-content>\n'/*ion-inline-end:"/Users/zubi/Documents/github/affix-demo/src/pages/home/home.html"*/
+        selector: 'page-home',template:/*ion-inline-start:"/Users/zubi/Documents/github/affix-demo/src/pages/home/home.html"*/'<ion-header>\n    <ion-toolbar>\n        <ion-title>\n            Ionic affix demo\n        </ion-title>\n    </ion-toolbar>\n</ion-header>\n\n<ion-content padding #content>\n    The world is your oyster.\n    <ion-list>\n        <ion-list-header ion-affix [content]="content" (click)="test()">Group 1 (click me!)</ion-list-header>\n        <ion-item *ngFor="let item of items">{{item}}</ion-item>\n    </ion-list>\n    <ion-list>\n        <ion-list-header ion-affix [content]="content">Group 2</ion-list-header>\n        <ion-item *ngFor="let item of items">{{item}}</ion-item>\n    </ion-list>\n    <ion-list>\n        <ion-list-header>Group 3 (non sticky)</ion-list-header>\n        <ion-item *ngFor="let item of items">{{item}}</ion-item>\n    </ion-list>\n    <ion-list>\n        <ion-list-header ion-affix [content]="content">Group 4</ion-list-header>\n        <ion-item *ngFor="let item of items">{{item}}</ion-item>\n    </ion-list>\n</ion-content>\n'/*ion-inline-end:"/Users/zubi/Documents/github/affix-demo/src/pages/home/home.html"*/
     })
 ], HomePage);
 
@@ -55960,14 +55960,14 @@ var IonAffix = (function () {
         var _this = this;
         var headerElement = this.element.nativeElement;
         var containerElement = headerElement.parentElement;
-        var containerTop = containerElement.offsetTop;
-        var containerBottom = containerTop + containerElement.getBoundingClientRect().height;
         var headerHeight = headerElement.getBoundingClientRect().height;
         var right = window.innerWidth - headerElement.getBoundingClientRect().width - headerElement.getBoundingClientRect().left;
         var left = headerElement.getBoundingClientRect().left;
         this.scrollSubscription = this.content.ionScroll.subscribe(function (event) {
             var scrollTop = event.scrollTop;
             var contentScrollTop = _this.content.getScrollElement().getBoundingClientRect().top;
+            var containerTop = containerElement.offsetTop;
+            var containerBottom = containerTop + containerElement.getBoundingClientRect().height;
             // check if scrollTop is within list boundaries
             if (scrollTop >= containerTop && scrollTop <= containerBottom) {
                 if (!_this.clone) {
@@ -74433,7 +74433,9 @@ AppModule = __decorate([
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
-            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["a" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_6__app_component__["a" /* MyApp */]),
+            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["a" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_6__app_component__["a" /* MyApp */], {
+                mode: 'ios'
+            }),
             __WEBPACK_IMPORTED_MODULE_5_ion_affix__["a" /* IonAffixModule */]
         ],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["b" /* IonicApp */]],

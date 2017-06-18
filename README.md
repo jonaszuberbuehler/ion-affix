@@ -10,7 +10,9 @@ Kudos to [Collin Donahue-Oponski][2] and his idea shown in [this gist][3].
 
 ## See it
 
-Coming
+[Here][4]
+
+[4]: https://jonaszuberbuehler.github.io/ion-affix/demo/www/demo.html
 
 ## Get it
 
