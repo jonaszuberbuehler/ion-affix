@@ -1,6 +1,6 @@
 # ion-affix
 
-> Allows for creating affixed (sticky) `ion-list-header` and `ion-item-divider` for newest [Ionic framework][1].
+> Allows for creating affixed (sticky) `ion-list-header`, `ion-item-divider` and `ion-card` for newest [Ionic framework][1].
 
 Kudos to [Collin Donahue-Oponski][2] and his initial idea shown in [this gist][3].
 
@@ -37,7 +37,7 @@ export class AppModule {
 }
 ```
 
-and add the directive `ion-affix` to any `ion-list-header` or `ion-item-divider` that should be sticky. You also need to provide a reference to the parent `ion-content`.
+and add the directive `ion-affix` to any `ion-list-header`, `ion-item-divider` or `ion-item` (inside `ion-card) that should be sticky. You also need to provide a reference to the parent `ion-content`.
 
  ```html
  <ion-content padding #content>
@@ -64,6 +64,43 @@ and add the directive `ion-affix` to any `ion-list-header` or `ion-item-divider`
      </ion-item-group>
  </ion-content>
  ```
+ 
+```html
+ <ion-content padding #content>
+    <ion-card>
+         <ion-item ion-affix [content]="content" no-lines>
+             <ion-avatar item-start>
+                 <img src="assets/img/marty-avatar.png">
+             </ion-avatar>
+             <h2>Marty McFly</h2>
+             <p>November 5, 1955</p>
+         </ion-item>
+         <img src="assets/img/advance-card-bttf.png">
+         <ion-card-content>
+             <p>Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a DeLorean?! Whoa. This is heavy.</p>
+         </ion-card-content>
+         <ion-row>
+             <ion-col>
+                 <button ion-button color="primary" clear small icon-start>
+                     <ion-icon name='thumbs-up'></ion-icon>
+                     12 Likes
+                 </button>
+             </ion-col>
+             <ion-col>
+                 <button ion-button color="primary" clear small icon-start>
+                     <ion-icon name='text'></ion-icon>
+                     4 Comments
+                 </button>
+             </ion-col>
+             <ion-col align-self-center text-center>
+                 <ion-note>
+                     11h ago
+                 </ion-note>
+             </ion-col>
+         </ion-row>
+     </ion-card>
+ </ion-content>
+```
 
 ## Explain it
 
