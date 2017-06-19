@@ -37,7 +37,7 @@ export class AppModule {
 }
 ```
 
-and add the directive `ion-affix` to any `ion-list-header`, `ion-item-divider` or `ion-item` (inside `ion-card) that should be sticky. You also need to provide a reference to the parent `ion-content`.
+and add the directive `ion-affix` to any `ion-list-header`, `ion-item-divider` or `ion-item` (inside `ion-card`) that should be sticky. You also need to provide a reference to the parent `ion-content`.
 
  ```html
  <ion-content padding #content>
