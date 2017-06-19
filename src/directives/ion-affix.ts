@@ -45,9 +45,13 @@ export class IonAffix implements AfterViewInit, OnDestroy {
                 if (!this.clone) {
                     this.clone = headerElement.cloneNode(true);
                     containerElement.insertBefore(this.clone, headerElement);
-                    this.applyStyles(headerElement, left, right);
                     this.content.getNativeElement().appendChild(headerElement);
-                    // for fancy transition efx
+                    // for fancy transition efx if scrolling down
+                    if (event.directionY === 'down') {
+                        this.applyStyles(headerElement, left, right);
+                    } else {
+                        this.applyStyles(headerElement, 0, 0);
+                    }
                     setTimeout(() => {
                         this.renderer.setStyle(headerElement, 'right', '0px');
                         this.renderer.setStyle(headerElement, 'left', '0px');
