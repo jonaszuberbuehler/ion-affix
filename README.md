@@ -40,7 +40,7 @@ export class AppModule {
 and add the directive `ion-affix` to any `ion-list-header`, `ion-item-divider` or `ion-item` (inside `ion-card`) that should be sticky. You also need to provide a reference to the parent `ion-content`.
 
  ```html
- <ion-content padding #content>
+<ion-content padding #content>
     <ion-list>
         <ion-list-header ion-affix [content]="content" (click)="test()">Group 1</ion-list-header>
         <ion-item *ngFor="let item of items">{{item}}</ion-item>
@@ -49,57 +49,57 @@ and add the directive `ion-affix` to any `ion-list-header`, `ion-item-divider` o
         <ion-list-header ion-affix [content]="content">Group 2</ion-list-header>
         <ion-item *ngFor="let item of items">{{item}}</ion-item>
     </ion-list>
- </ion-content>
+</ion-content>
  ```
  
  ```html
- <ion-content padding #content>
+<ion-content padding #content>
     <ion-item-group>
-         <ion-item-divider ion-affix [content]="content" (click)="test()">Group 1 (click me!)</ion-item-divider>
-         <ion-item *ngFor="let item of items">{{item}}</ion-item>
-     </ion-item-group>
-     <ion-item-group>
-         <ion-item-divider ion-affix [content]="content">Group 2</ion-item-divider>
-         <ion-item *ngFor="let item of items">{{item}}</ion-item>
-     </ion-item-group>
- </ion-content>
+        <ion-item-divider ion-affix [content]="content" (click)="test()">Group 1 (click me!)</ion-item-divider>
+        <ion-item *ngFor="let item of items">{{item}}</ion-item>
+    </ion-item-group>
+    <ion-item-group>
+        <ion-item-divider ion-affix [content]="content">Group 2</ion-item-divider>
+        <ion-item *ngFor="let item of items">{{item}}</ion-item>
+    </ion-item-group>
+</ion-content>
  ```
  
 ```html
- <ion-content padding #content>
+<ion-content padding #content>
     <ion-card>
-         <ion-item ion-affix [content]="content" no-lines>
-             <ion-avatar item-start>
-                 <img src="assets/img/marty-avatar.png">
-             </ion-avatar>
-             <h2>Marty McFly</h2>
-             <p>November 5, 1955</p>
-         </ion-item>
-         <img src="assets/img/advance-card-bttf.png">
-         <ion-card-content>
-             <p>Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a DeLorean?! Whoa. This is heavy.</p>
-         </ion-card-content>
-         <ion-row>
-             <ion-col>
-                 <button ion-button color="primary" clear small icon-start>
-                     <ion-icon name='thumbs-up'></ion-icon>
-                     12 Likes
-                 </button>
-             </ion-col>
-             <ion-col>
-                 <button ion-button color="primary" clear small icon-start>
-                     <ion-icon name='text'></ion-icon>
-                     4 Comments
-                 </button>
-             </ion-col>
-             <ion-col align-self-center text-center>
-                 <ion-note>
-                     11h ago
-                 </ion-note>
-             </ion-col>
-         </ion-row>
-     </ion-card>
- </ion-content>
+        <ion-item ion-affix [content]="content" no-lines>
+            <ion-avatar item-start>
+                <img src="assets/img/marty-avatar.png">
+            </ion-avatar>
+            <h2>Marty McFly</h2>
+            <p>November 5, 1955</p>
+        </ion-item>
+        <img src="assets/img/advance-card-bttf.png">
+        <ion-card-content>
+            <p>Wait a minute. Wait a minute, Doc. Uhhh... Are you telling me that you built a time machine... out of a DeLorean?! Whoa. This is heavy.</p>
+        </ion-card-content>
+        <ion-row>
+            <ion-col>
+                <button ion-button color="primary" clear small icon-start>
+                    <ion-icon name='thumbs-up'></ion-icon>
+                    12 Likes
+                </button>
+            </ion-col>
+            <ion-col>
+                <button ion-button color="primary" clear small icon-start>
+                    <ion-icon name='text'></ion-icon>
+                    4 Comments
+                </button>
+            </ion-col>
+            <ion-col align-self-center text-center>
+                <ion-note>
+                    11h ago
+                </ion-note>
+            </ion-col>
+        </ion-row>
+    </ion-card>
+</ion-content>
 ```
 
 ## Explain it
