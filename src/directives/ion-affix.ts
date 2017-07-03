@@ -23,80 +23,95 @@ export class IonAffix implements AfterViewInit, OnDestroy {
     @Input('content') content: Content;
     clone;
     scrollSubscription;
+    headerElement;
+    containerElement;
 
     constructor(private element: ElementRef, private renderer: Renderer2) {
     }
 
     ngAfterViewInit(): void {
-        const headerElement = this.element.nativeElement;
-        const containerElement = headerElement.parentElement;
-        const headerHeight = headerElement.getBoundingClientRect().height;
-        const right = window.innerWidth - headerElement.getBoundingClientRect().width - headerElement.getBoundingClientRect().left;
-        const left = headerElement.getBoundingClientRect().left;
+        this.headerElement = this.element.nativeElement;
+        this.containerElement = this.headerElement.parentElement;
+        const headerHeight = this.headerElement.getBoundingClientRect().height;
+        const right = window.innerWidth - this.headerElement.getBoundingClientRect().width - this.headerElement.getBoundingClientRect().left;
+        const left = this.headerElement.getBoundingClientRect().left;
+        let contentScrollTop = this.content.getScrollElement().getBoundingClientRect().top;
+        let containerTop = this.containerElement.offsetTop;
+        let containerBottom = containerTop + this.containerElement.getBoundingClientRect().height;
+        // initially checking if affix needs to be shown
+        this.updateSticky(this.content.getScrollElement().scrollTop, containerTop, containerBottom, contentScrollTop, headerHeight, left, right, true);
 
         this.scrollSubscription = this.content.ionScroll.subscribe(event => {
             const scrollTop = event.scrollTop;
-            const contentScrollTop = this.content.getScrollElement().getBoundingClientRect().top;
-            const containerTop = containerElement.offsetTop;
-            const containerBottom = containerTop + containerElement.getBoundingClientRect().height;
-
-            // check if scrollTop is within list boundaries
-            if (scrollTop >= containerTop && scrollTop <= containerBottom) {
-                if (!this.clone) {
-                    this.clone = headerElement.cloneNode(true);
-                    containerElement.insertBefore(this.clone, headerElement);
-                    this.content.getNativeElement().appendChild(headerElement);
-                    // for fancy transition efx if scrolling down
-                    if (event.directionY === 'down') {
-                        this.applyStyles(headerElement, left, right);
-                    } else {
-                        this.applyStyles(headerElement, 0, 0);
-                    }
-                    setTimeout(() => {
-                        this.renderer.setStyle(headerElement, 'right', '0px');
-                        this.renderer.setStyle(headerElement, 'left', '0px');
-                    }, 0);
-                }
-                // transform vertical position to push fixed header up/down
-                if (scrollTop <= containerBottom && scrollTop >= (containerBottom - headerHeight)) {
-                    const delta = contentScrollTop - (scrollTop - (containerBottom - headerHeight));
-                    this.renderer.setStyle(headerElement, 'transform', `translate3d(0px, ${delta}px, 0px)`);
-                } else {
-                    this.renderer.setStyle(headerElement, 'transform', `translate3d(0px, ${contentScrollTop}px, 0px`);
-                }
-            } else {
-                if (this.clone) {
-                    containerElement.insertBefore(headerElement, this.clone);
-                    this.clearStyles(headerElement);
-                    this.clone.remove();
-                    this.clone = null;
-                }
-            }
+            contentScrollTop = this.content.getScrollElement().getBoundingClientRect().top;
+            containerTop = this.containerElement.offsetTop;
+            containerBottom = containerTop + this.containerElement.getBoundingClientRect().height;
+            this.updateSticky(scrollTop, containerTop, containerBottom, contentScrollTop, headerHeight, left, right, event.directionY === 'down');
         });
     }
 
-    private applyStyles(headerElement, left, right) {
-        this.renderer.setStyle(headerElement, 'right', `${right}px`);
-        this.renderer.setStyle(headerElement, 'left', `${left}px`);
-        this.renderer.setStyle(headerElement, 'transition', 'left 0.1s ease-out, right 0.1s ease-out');
-        this.renderer.setStyle(headerElement, 'z-index', '2');
-        this.renderer.setStyle(headerElement, 'position', 'absolute');
-        this.renderer.setStyle(headerElement, 'width', 'auto');
-        this.renderer.setStyle(headerElement, 'top', '0px');
+    private updateSticky(scrollTop, containerTop, containerBottom, contentScrollTop, headerHeight, left, right, downwards) {
+        // check if scrollTop is within list boundaries
+        if (scrollTop >= containerTop && scrollTop <= containerBottom) {
+            if (!this.clone) {
+                this.clone = this.headerElement.cloneNode(true);
+                this.containerElement.insertBefore(this.clone, this.headerElement);
+                this.content.getNativeElement().appendChild(this.headerElement);
+                // for fancy transition efx if scrolling down
+                if (downwards) {
+                    this.applyStyles(left, right);
+                } else {
+                    this.applyStyles(0, 0);
+                }
+                setTimeout(() => {
+                    this.renderer.setStyle(this.headerElement, 'right', '0px');
+                    this.renderer.setStyle(this.headerElement, 'left', '0px');
+                }, 0);
+            }
+            // transform vertical position to push fixed header up/down
+            if (scrollTop <= containerBottom && scrollTop >= (containerBottom - headerHeight)) {
+                const delta = contentScrollTop - (scrollTop - (containerBottom - headerHeight));
+                this.renderer.setStyle(this.headerElement, 'transform', `translate3d(0px, ${delta}px, 0px)`);
+            } else {
+                this.renderer.setStyle(this.headerElement, 'transform', `translate3d(0px, ${contentScrollTop}px, 0px`);
+            }
+        } else {
+            this.reset();
+        }
     }
 
-    private clearStyles(headerElement) {
-        this.renderer.removeStyle(headerElement, 'position');
-        this.renderer.removeStyle(headerElement, 'z-index');
-        this.renderer.removeStyle(headerElement, 'transition');
-        this.renderer.removeStyle(headerElement, 'top');
-        this.renderer.removeStyle(headerElement, 'transform');
-        this.renderer.removeStyle(headerElement, 'left');
-        this.renderer.removeStyle(headerElement, 'right');
-        this.renderer.removeStyle(headerElement, 'width');
+    private reset() {
+        if (this.clone) {
+            this.containerElement.insertBefore(this.headerElement, this.clone);
+            this.clearStyles();
+            this.clone.remove();
+            this.clone = null;
+        }
+    }
+
+    private applyStyles(left, right) {
+        this.renderer.setStyle(this.headerElement, 'right', `${right}px`);
+        this.renderer.setStyle(this.headerElement, 'left', `${left}px`);
+        this.renderer.setStyle(this.headerElement, 'transition', 'left 0.1s ease-out, right 0.1s ease-out');
+        this.renderer.setStyle(this.headerElement, 'z-index', '2');
+        this.renderer.setStyle(this.headerElement, 'position', 'absolute');
+        this.renderer.setStyle(this.headerElement, 'width', 'auto');
+        this.renderer.setStyle(this.headerElement, 'top', '0px');
+    }
+
+    private clearStyles() {
+        this.renderer.removeStyle(this.headerElement, 'position');
+        this.renderer.removeStyle(this.headerElement, 'z-index');
+        this.renderer.removeStyle(this.headerElement, 'transition');
+        this.renderer.removeStyle(this.headerElement, 'top');
+        this.renderer.removeStyle(this.headerElement, 'transform');
+        this.renderer.removeStyle(this.headerElement, 'left');
+        this.renderer.removeStyle(this.headerElement, 'right');
+        this.renderer.removeStyle(this.headerElement, 'width');
     }
 
     ngOnDestroy(): void {
+        this.reset();
         this.scrollSubscription.unsubscribe();
     }
 }
