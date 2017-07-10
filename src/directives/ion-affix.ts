@@ -55,7 +55,7 @@ export class IonAffix implements AfterViewInit, OnDestroy {
 
     private updateSticky(scrollTop, containerTop, containerBottom, contentScrollTop, headerHeight, left, right, downwards) {
         // check if scrollTop is within list boundaries
-        if (scrollTop >= containerTop && scrollTop <= containerBottom) {
+        if (scrollTop > 0 && scrollTop >= containerTop && scrollTop <= containerBottom) {
             if (!this.clone) {
                 this.clone = this.headerElement.cloneNode(true);
                 this.containerElement.insertBefore(this.clone, this.headerElement);
