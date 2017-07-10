@@ -22,7 +22,7 @@ export class IonAffix implements AfterViewInit, OnDestroy {
 
     @Input('content') content: Content;
     clone;
-    scrollSubscription;
+    scrollSubscriptions = [];
     headerElement;
     containerElement;
 
@@ -41,13 +41,16 @@ export class IonAffix implements AfterViewInit, OnDestroy {
         // initially checking if affix needs to be shown
         this.updateSticky(this.content.getScrollElement().scrollTop, containerTop, containerBottom, contentScrollTop, headerHeight, left, right, true);
 
-        this.scrollSubscription = this.content.ionScroll.subscribe(event => {
+        const onScroll = event => {
             const scrollTop = event.scrollTop;
             contentScrollTop = this.content.getScrollElement().getBoundingClientRect().top;
             containerTop = this.containerElement.offsetTop;
             containerBottom = containerTop + this.containerElement.getBoundingClientRect().height;
             this.updateSticky(scrollTop, containerTop, containerBottom, contentScrollTop, headerHeight, left, right, event.directionY === 'down');
-        });
+        };
+        this.scrollSubscriptions.push(this.content.ionScrollStart.subscribe(onScroll));
+        this.scrollSubscriptions.push(this.content.ionScroll.subscribe(onScroll));
+        this.scrollSubscriptions.push(this.content.ionScrollEnd.subscribe(onScroll));
     }
 
     private updateSticky(scrollTop, containerTop, containerBottom, contentScrollTop, headerHeight, left, right, downwards) {
@@ -112,6 +115,6 @@ export class IonAffix implements AfterViewInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.reset();
-        this.scrollSubscription.unsubscribe();
+        this.scrollSubscriptions.forEach(sub => sub.unsubscribe());
     }
 }
