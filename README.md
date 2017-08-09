@@ -1,3 +1,5 @@
+[![NPM](https://nodei.co/npm-dl/ion-affix.png?months=6)](https://nodei.co/npm/ion-affix/)
+
 # ion-affix
 
 > Allows for creating affixed (sticky) `ion-list-header`, `ion-item-divider` and `ion-card` for newest [Ionic framework][1].
