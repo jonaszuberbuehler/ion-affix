@@ -1,4 +1,5 @@
-[![NPM](https://nodei.co/npm-dl/ion-affix.png?months=6)](https://nodei.co/npm/ion-affix/)
+[![npm](https://img.shields.io/npm/l/ion-affix.svg)](https://www.npmjs.com/package/ion-affix/)
+[![npm](https://img.shields.io/npm/dt/ion-affix.svg)](https://www.npmjs.com/package/ion-affix)
 
 # ion-affix
 
