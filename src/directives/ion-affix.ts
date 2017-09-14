@@ -75,8 +75,10 @@ export class IonAffix implements AfterViewInit, OnDestroy {
             if (scrollTop <= containerBottom && scrollTop >= (containerBottom - headerHeight)) {
                 const delta = contentScrollTop - (scrollTop - (containerBottom - headerHeight));
                 this.renderer.setStyle(this.headerElement, 'transform', `translate3d(0px, ${delta}px, 0px)`);
+                this.renderer.setStyle(this.headerElement, '-webkit-transform', `translate3d(0px, ${delta}px, 0px)`);
             } else {
-                this.renderer.setStyle(this.headerElement, 'transform', `translate3d(0px, ${contentScrollTop}px, 0px`);
+                this.renderer.setStyle(this.headerElement, 'transform', `translate3d(0px, ${contentScrollTop}px, 0px)`);
+                this.renderer.setStyle(this.headerElement, '-webkit-transform', `translate3d(0px, ${contentScrollTop}px, 0px)`);
             }
         } else {
             this.reset();
@@ -108,6 +110,7 @@ export class IonAffix implements AfterViewInit, OnDestroy {
         this.renderer.removeStyle(this.headerElement, 'transition');
         this.renderer.removeStyle(this.headerElement, 'top');
         this.renderer.removeStyle(this.headerElement, 'transform');
+        this.renderer.removeStyle(this.headerElement, '-webkit-transform');
         this.renderer.removeStyle(this.headerElement, 'left');
         this.renderer.removeStyle(this.headerElement, 'right');
         this.renderer.removeStyle(this.headerElement, 'width');
