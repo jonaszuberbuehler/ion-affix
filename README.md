@@ -1,3 +1,8 @@
+[![npm](https://img.shields.io/npm/l/ion-affix.svg)](https://www.npmjs.com/package/ion-affix/)
+[![npm](https://img.shields.io/npm/v/ion-affix.svg)](https://www.npmjs.com/package/ion-affix/)
+[![npm](https://img.shields.io/npm/dt/ion-affix.svg)](https://www.npmjs.com/package/ion-affix)
+[![npm](https://img.shields.io/npm/dm/ion-affix.svg)](https://www.npmjs.com/package/ion-affix)
+
 # ion-affix
 
 > Allows for creating affixed (sticky) `ion-list-header`, `ion-item-divider` and `ion-card` for newest [Ionic framework][1].
