@@ -41,7 +41,7 @@ export class IonAffix implements AfterViewInit, OnDestroy {
         // initially checking if affix needs to be shown
         this.updateSticky(this.content.getScrollElement().scrollTop, containerTop, containerBottom, contentScrollTop, headerHeight, left, right, true);
 
-        const onScroll = event => {
+        const onScroll = () => {
             const scrollTop = this.content.scrollTop;
             contentScrollTop = this.content.getScrollElement().getBoundingClientRect().top;
             containerTop = this.containerElement.offsetTop;
