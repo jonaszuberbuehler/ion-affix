@@ -42,11 +42,11 @@ export class IonAffix implements AfterViewInit, OnDestroy {
         this.updateSticky(this.content.getScrollElement().scrollTop, containerTop, containerBottom, contentScrollTop, headerHeight, left, right, true);
 
         const onScroll = event => {
-            const scrollTop = event.scrollTop;
+            const scrollTop = this.content.scrollTop;
             contentScrollTop = this.content.getScrollElement().getBoundingClientRect().top;
             containerTop = this.containerElement.offsetTop;
             containerBottom = containerTop + this.containerElement.getBoundingClientRect().height;
-            this.updateSticky(scrollTop, containerTop, containerBottom, contentScrollTop, headerHeight, left, right, event.directionY === 'down');
+            this.updateSticky(scrollTop, containerTop, containerBottom, contentScrollTop, headerHeight, left, right, this.content.directionY === 'down');
         };
         this.scrollSubscriptions.push(this.content.ionScrollStart.subscribe(onScroll));
         this.scrollSubscriptions.push(this.content.ionScroll.subscribe(onScroll));
