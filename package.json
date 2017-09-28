@@ -1,6 +1,6 @@
 {
     "name": "ion-affix",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "description": "A directive for Ionic framework for creating affix ion-list-headers.",
     "main": "./dist/index.js",
     "typings": "./dist/index.d.ts",
@@ -38,5 +38,8 @@
         "rxjs": "5.1.1",
         "zone.js": "0.8.11",
         "typescript": "2.3.3"
+    },
+    "peerDependencies": {
+        "ionic-angular": "^3.0.0"
     }
 }
