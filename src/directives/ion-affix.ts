@@ -1,5 +1,6 @@
-import { AfterViewInit, Directive, ElementRef, Input, OnDestroy, Renderer2 } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, OnDestroy, Output, Renderer2 } from '@angular/core';
 import { Content } from 'ionic-angular';
+import { IonAffixEvent } from './ion-affix-event';
 
 /**
  * Directive for creating affixed list headers. Apply it to ion-list-header and pass a reference to ion-content to it.
@@ -21,6 +22,7 @@ import { Content } from 'ionic-angular';
 export class IonAffix implements AfterViewInit, OnDestroy {
 
     @Input('content') content: Content;
+    @Output() onSticky = new EventEmitter<IonAffixEvent>();
     clone;
     scrollSubscriptions = [];
     headerElement;
@@ -60,6 +62,7 @@ export class IonAffix implements AfterViewInit, OnDestroy {
                 this.clone = this.headerElement.cloneNode(true);
                 this.containerElement.insertBefore(this.clone, this.headerElement);
                 this.content.getNativeElement().appendChild(this.headerElement);
+                this.onSticky.emit({sticky: true, affix: this});
                 // for fancy transition efx if scrolling down
                 if (downwards) {
                     this.applyStyles(left, right);
@@ -91,6 +94,7 @@ export class IonAffix implements AfterViewInit, OnDestroy {
             this.clearStyles();
             this.clone.remove();
             this.clone = null;
+            this.onSticky.emit({sticky: false, affix: this});
         }
     }
 

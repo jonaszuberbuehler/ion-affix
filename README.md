@@ -107,6 +107,31 @@ and add the directive `ion-affix` to any `ion-list-header`, `ion-item-divider` o
 </ion-content>
 ```
 
+### Events
+
+In case you need to know whether a certain element gets sticky or not you can subscribe to `onSticky(IonAffixEvent)` event:
+
+ ```html
+<ion-content padding #content>
+    <ion-list>
+        <ion-list-header ion-affix [content]="content" (onSticky)="handleOnSticky($event)">Group 1</ion-list-header>
+        <ion-item *ngFor="let item of items">{{item}}</ion-item>
+    </ion-list>
+    <ion-list>
+        <ion-list-header ion-affix [content]="content">Group 2</ion-list-header>
+        <ion-item *ngFor="let item of items">{{item}}</ion-item>
+    </ion-list>
+</ion-content>
+ ```
+ 
+`IonAffixEvent` has two properties:
+
+### `sticky`
+(boolean) Whether the affix is sticky or not.
+
+### `affix`
+(IonAffix) The affected element (in case you need to manipulate it).
+
 ## Explain it
 
 To be able use custom Angular directives on a sticky header I decided to make the original `ion-list-header` element sticky instead of its clone. This is the major difference to the gist shown above and I did it mainly because I have no idea how to do a `$compile(clone)` known from AngularJS with Angular 2. 
