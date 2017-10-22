@@ -126,10 +126,10 @@ In case you need to know whether a certain element gets sticky or not you can su
  
 `IonAffixEvent` has two properties:
 
-### `sticky`
+#### `sticky`
 (boolean) Whether the affix is sticky or not.
 
-### `affix`
+#### `affix`
 (IonAffix) The affected element (in case you need to manipulate it).
 
 ## Explain it
