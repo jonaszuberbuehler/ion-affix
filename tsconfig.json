@@ -16,10 +16,9 @@
     },
     "exclude": [
         "node_modules",
-        "dist",
-        "scripts"
+        "dist"
     ],
     "angularCompilerOptions": {
-        "genDir": "aot"
+        "skipTemplateCodegen": true
     }
 }

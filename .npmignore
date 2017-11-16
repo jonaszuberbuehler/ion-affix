@@ -3,8 +3,6 @@ node_modules
 .gitignore
 .npmignore
 tsconfig.json
-aot
 demo
 .idea
-scripts
 .editorconfig
