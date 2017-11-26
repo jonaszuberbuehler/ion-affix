@@ -1,6 +1,7 @@
 import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, OnDestroy, Output, Renderer2 } from '@angular/core';
-import { Content } from 'ionic-angular';
 import { IonAffixEvent } from './ion-affix-event';
+import { IonAffixContainer } from './ion-affix-container';
+import { adapterFactory } from './adapters/adapter-factory';
 
 /**
  * Directive for creating affixed list headers. Apply it to ion-list-header and pass a reference to ion-content to it.
@@ -21,47 +22,52 @@ import { IonAffixEvent } from './ion-affix-event';
 })
 export class IonAffix implements AfterViewInit, OnDestroy {
 
-    @Input('content') content: Content;
+    @Input('content') content;
     @Output() onSticky = new EventEmitter<IonAffixEvent>();
     clone;
-    scrollSubscriptions = [];
+    scrollSubscription;
+    // header that should be made sticky
     headerElement;
+    // direct parent of header (can be ion-list, ion-card etc.)
     containerElement;
+    // the element that scrolls (i.e., ion-content or ion-scroll)
+    scrollContainer: IonAffixContainer;
 
     constructor(private element: ElementRef, private renderer: Renderer2) {
     }
 
     ngAfterViewInit(): void {
+        // getting container
+        this.scrollContainer = adapterFactory(this.content);
         this.headerElement = this.element.nativeElement;
         this.containerElement = this.headerElement.parentElement;
         const headerHeight = this.headerElement.getBoundingClientRect().height;
         const right = window.innerWidth - this.headerElement.getBoundingClientRect().width - this.headerElement.getBoundingClientRect().left;
         const left = this.headerElement.getBoundingClientRect().left;
-        let contentScrollTop = this.content.getScrollElement().getBoundingClientRect().top;
+        let scrollClientTop = this.scrollContainer.getClientTop();
         let containerTop = this.containerElement.offsetTop;
         let containerBottom = containerTop + this.containerElement.getBoundingClientRect().height;
         // initially checking if affix needs to be shown
-        this.updateSticky(this.content.getScrollElement().scrollTop, containerTop, containerBottom, contentScrollTop, headerHeight, left, right, true);
+        this.updateSticky(this.scrollContainer.getScrollTop(), containerTop, containerBottom, scrollClientTop, headerHeight, left, right, true);
 
         const onScroll = () => {
-            const scrollTop = this.content.scrollTop;
-            contentScrollTop = this.content.getScrollElement().getBoundingClientRect().top;
+            const scrollTop = this.scrollContainer.getScrollTop();
+            scrollClientTop = this.scrollContainer.getClientTop();
             containerTop = this.containerElement.offsetTop;
             containerBottom = containerTop + this.containerElement.getBoundingClientRect().height;
-            this.updateSticky(scrollTop, containerTop, containerBottom, contentScrollTop, headerHeight, left, right, this.content.directionY === 'down');
+            this.updateSticky(scrollTop, containerTop, containerBottom, scrollClientTop, headerHeight, left, right, this.scrollContainer.isScrollingDown());
         };
-        this.scrollSubscriptions.push(this.content.ionScrollStart.subscribe(onScroll));
-        this.scrollSubscriptions.push(this.content.ionScroll.subscribe(onScroll));
-        this.scrollSubscriptions.push(this.content.ionScrollEnd.subscribe(onScroll));
+        // subscribing to scroll events
+        this.scrollSubscription = this.scrollContainer.onScroll().subscribe(onScroll);
     }
 
-    private updateSticky(scrollTop, containerTop, containerBottom, contentScrollTop, headerHeight, left, right, downwards) {
+    private updateSticky(scrollTop, containerTop, containerBottom, scrollClientTop, headerHeight, left, right, downwards) {
         // check if scrollTop is within list boundaries
         if (scrollTop > 0 && scrollTop >= containerTop && scrollTop <= containerBottom) {
             if (!this.clone) {
                 this.clone = this.headerElement.cloneNode(true);
                 this.containerElement.insertBefore(this.clone, this.headerElement);
-                this.content.getNativeElement().appendChild(this.headerElement);
+                this.scrollContainer.appendFixedHeader(this.headerElement);
                 this.onSticky.emit({sticky: true, affix: this});
                 // for fancy transition efx if scrolling down
                 if (downwards) {
@@ -76,12 +82,12 @@ export class IonAffix implements AfterViewInit, OnDestroy {
             }
             // transform vertical position to push fixed header up/down
             if (scrollTop <= containerBottom && scrollTop >= (containerBottom - headerHeight)) {
-                const delta = contentScrollTop - (scrollTop - (containerBottom - headerHeight));
+                const delta = scrollClientTop - (scrollTop - (containerBottom - headerHeight));
                 this.renderer.setStyle(this.headerElement, 'transform', `translate3d(0px, ${delta}px, 0px)`);
                 this.renderer.setStyle(this.headerElement, '-webkit-transform', `translate3d(0px, ${delta}px, 0px)`);
             } else {
-                this.renderer.setStyle(this.headerElement, 'transform', `translate3d(0px, ${contentScrollTop}px, 0px)`);
-                this.renderer.setStyle(this.headerElement, '-webkit-transform', `translate3d(0px, ${contentScrollTop}px, 0px)`);
+                this.renderer.setStyle(this.headerElement, 'transform', `translate3d(0px, ${scrollClientTop}px, 0px)`);
+                this.renderer.setStyle(this.headerElement, '-webkit-transform', `translate3d(0px, ${scrollClientTop}px, 0px)`);
             }
         } else {
             this.reset();
@@ -122,6 +128,6 @@ export class IonAffix implements AfterViewInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.reset();
-        this.scrollSubscriptions.forEach(sub => sub.unsubscribe());
+        this.scrollSubscription.unsubscribe();
     }
 }
