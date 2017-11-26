@@ -15,7 +15,7 @@ Kudos to [Collin Donahue-Oponski][2] and his initial idea shown in [this gist][3
 
 ## See it
 
-[Here][4]
+[Here][4], the source can be found at https://github.com/jonaszuberbuehler/ion-affix-demo.
 
 [4]: https://jonaszuberbuehler.github.io/ion-affix/demo/www/demo.html
 
@@ -106,6 +106,10 @@ and add the directive `ion-affix` to any `ion-list-header`, `ion-item-divider` o
     </ion-card>
 </ion-content>
 ```
+
+### ion-scroll
+
+If you need sticky headers within an `ion-scroll` make sure you're using a version of this module >=1.1.0 and pass the reference of it instead of `ion-content`. You most likely also want to add `style="overflow:hidden"` to the `ion-scroll`, otherwise the pushing up/pulling down of headers looks a bit strange.
 
 ### Events
 
