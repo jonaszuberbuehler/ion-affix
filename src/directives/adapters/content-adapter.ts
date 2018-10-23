@@ -1,7 +1,6 @@
 import { IonAffixContainer } from '../ion-affix-container';
 import { Content } from 'ionic-angular';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/merge';
+import { Observable, merge } from 'rxjs';
 
 /**
  * Adapter for ion-content.
@@ -14,7 +13,7 @@ export class ContentAdapter implements IonAffixContainer {
     }
 
     onScroll(): Observable<any> {
-        return Observable.merge(this.content.ionScrollStart, this.content.ionScroll, this.content.ionScrollEnd);
+        return merge(this.content.ionScrollStart, this.content.ionScroll, this.content.ionScrollEnd);
     }
 
     getClientTop(): number {
