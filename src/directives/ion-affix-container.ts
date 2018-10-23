@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 /**
  * Abstraction for scrollable containers an ion-affix can be attached to. Currently only ion-content and ion-scroll.
