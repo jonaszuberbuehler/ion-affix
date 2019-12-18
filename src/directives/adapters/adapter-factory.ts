@@ -1,12 +1,12 @@
-import { Content, Scroll } from 'ionic-angular';
+import { IonContent } from '@ionic/angular';
 import { ContentAdapter } from './content-adapter';
-import { ScrollAdapter } from './scroll-adapter';
-
-export function adapterFactory (container) {
-    if (container instanceof Content) {
+export function adapterFactory(container) {
+    if (container instanceof IonContent) {
         return new ContentAdapter(container);
-    } else if (container instanceof Scroll) {
-        return new ScrollAdapter(container);
     }
-    throw 'Invalid container element (only ion-content and ion-scroll currently supported)';
+    // else if (container instanceof Scroll) {
+    //     return new ScrollAdapter(container);
+    // }
+    throw 'Invalid container element (only ion-content currently supported)';
 }
+//# sourceMappingURL=adapter-factory.js.map
